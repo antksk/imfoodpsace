@@ -10,7 +10,7 @@ class Upload extends CI_Controller {
 
 	function __construct()
 	{
-		parent::__construct();s
+		parent::__construct();
 		$this->load->helper(array('form', 'url'));
 	}
 
@@ -23,7 +23,7 @@ class Upload extends CI_Controller {
 	{
 		$config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'xls|xlsx|ods';
-		$config['max_size']	= '10';
+		$config['max_size']	= 100;
 		$config['max_width']  = '1024';
 		$config['max_height']  = '768';
 
