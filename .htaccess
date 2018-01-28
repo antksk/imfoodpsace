@@ -1,0 +1,20 @@
+RewriteEngine on
+php_value allow_url_fopen On
+
+SetEnv CI_ENV development
+
+# data/index.php 페이지 변경
+# RewriteRule ^data\/index\.php$ /main/blank [R=301]
+
+# CI 리다이렉트
+RewriteCond $1 !^(index\.php|images|robots\.txt|crossdomain\.xml|sitemap\.xml)
+# RewriteCond %{REQUEST_URI} !^/app/javascript/(.*)$
+# RewriteCond %{REQUEST_URI} !^/phpThumb/(.*)$
+# RewriteCond %{REQUEST_URI} !^/data/(.*)$
+# RewriteCond %{REQUEST_URI} !^/admin/skin/(.*)$
+# RewriteCond %{REQUEST_URI} !^/board_original/(.*)$
+# RewriteCond %{REQUEST_URI} !^/pg/(.*)$
+RewriteRule ^((.*))$ index.php?/$1 [L]
+
+# 404 error document
+ErrorDocument 404 /errdoc/error_404
