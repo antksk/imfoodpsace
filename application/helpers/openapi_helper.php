@@ -10,13 +10,14 @@ class OpenAPI {
 		if ($URL_parsed ["query"] != "")
 			$path .= "?" . $URL_parsed ["query"];
 		$out = "GET $path HTTP/1.0rn";
-		$out .= "Host: $hostrn";
+		$out .= "Host: $host";
 		$out .= "Connection: Closernrn";
 		$fp = fsockopen ( $host, $port, $errno, $errstr, 30 );
 		if (! $fp) {
 			echo "$errstr ($errno)<br>n";
 		} else {
 			fputs ( $fp, $out );
+			$in = '';
 			$body = false;
 			while ( ! feof ( $fp ) ) {
 				$s = fgets ( $fp, 128 );

@@ -292,7 +292,7 @@ class CI_FTP {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Upload.php a file to the server
+	 * Uploads.php a file to the server
 	 *
 	 * @param	string	$locpath
 	 * @param	string	$rempath

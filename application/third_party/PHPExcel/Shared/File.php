@@ -28,7 +28,7 @@
 class PHPExcel_Shared_File
 {
     /*
-     * Use Temp or File Upload.php Temp for temporary files
+     * Use Temp or File Uploads.php Temp for temporary files
      *
      * @protected
      * @var    boolean
@@ -37,9 +37,9 @@ class PHPExcel_Shared_File
 
 
     /**
-     * Set the flag indicating whether the File Upload.php Temp directory should be used for temporary files
+     * Set the flag indicating whether the File Uploads.php Temp directory should be used for temporary files
      *
-     * @param     boolean    $useUploadTempDir        Use File Upload.php Temporary directory (true or false)
+     * @param     boolean    $useUploadTempDir        Use File Uploads.php Temporary directory (true or false)
      */
     public static function setUseUploadTempDirectory($useUploadTempDir = false)
     {
@@ -48,9 +48,9 @@ class PHPExcel_Shared_File
 
 
     /**
-     * Get the flag indicating whether the File Upload.php Temp directory should be used for temporary files
+     * Get the flag indicating whether the File Uploads.php Temp directory should be used for temporary files
      *
-     * @return     boolean    Use File Upload.php Temporary directory (true or false)
+     * @return     boolean    Use File Uploads.php Temporary directory (true or false)
      */
     public static function getUseUploadTempDirectory()
     {
