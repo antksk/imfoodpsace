@@ -6,7 +6,7 @@
  * Time: 오후 4:32
  */
 
-class UploadS extends CI_Controller {
+class Excel extends CI_Controller {
 
     function __construct()
     {

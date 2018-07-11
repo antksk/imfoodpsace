@@ -73,20 +73,20 @@ class MvcController extends CI_Controller
 
     protected function _js($path, $data)
     {
-        $script = "/*[JS] not found view file($entry_point_js_path)*/";
+        $script = "/*[JS] not found view file($path)*/";
 
-        if (is_im_exists_view($entry_point_js_path)) {
-            $script = str_replace(array('<script>', '</script>'), '', $this->_html($entry_point_js_path, $data));
+        if (is_im_exists_view($path)) {
+            $script = str_replace(array('<script>', '</script>'), '', $this->_html($path, $data));
         }
         return $script;
     }
 
     protected function _css($path, $data)
     {
-        $style = "/*[CSS] not found view file($entry_point_js_path)*/";
+        $style = "/*[CSS] not found view file($path)*/";
 
-        if (is_im_exists_view($entry_point_js_path)) {
-            $style = str_replace(array('<style>', '</style>'), '', $this->_html($entry_point_js_path, $data));
+        if (is_im_exists_view($path)) {
+            $style = str_replace(array('<style>', '</style>'), '', $this->_html($path, $data));
         }
         return $style;
     }
