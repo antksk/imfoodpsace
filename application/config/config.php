@@ -393,7 +393,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 
 // $config['sess_driver'] = 'files';
 $config['sess_driver'] = 'database';
-$config['sess_cookie_name'] = 'ci_session';
+$config['sess_cookie_name'] = 'im_session';
 $config['sess_expiration'] = (60 * 60) * 8; // (60m * 60s) * 2h == 7200(2시간)
 $config['sess_save_path'] = 'im_sessions';
 $config['sess_match_ip'] = FALSE;
