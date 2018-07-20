@@ -12,9 +12,23 @@ class MvcController extends CI_Controller
         $this->cdn = $this->config->item('im_fe_cdn');
     }
 
+    protected function _view($page, $data = null, $inc_flag = FALSE ){
+        return $this->load->view($page, $data, $inc_flag);
+    }
+
     protected function _inc_view($page, $data = null)
     {
-        return $this->load->view($page, $data, TRUE);
+        return $this->load->view("inc/$page", $data, TRUE);
+    }
+
+    protected function _base_res($exteds_view = []){
+        return array_merge([
+            'script_tag' => $this->_cdn_js(),
+            'style_tag' => $this->_cdn_css(),
+            'inc_common' => $this->_inc_view('inc_common')
+        ],
+            $exteds_view
+        );
     }
 
     protected function _cdn_js($prefixs = null)
@@ -91,6 +105,8 @@ class MvcController extends CI_Controller
         return $style;
     }
 
+
+
     // $path 경로에 data 정보가 들어오면,
     // path 정보는 기본적으로 uri를 기준으로 설정됨
     // 예를 들어
@@ -103,7 +119,7 @@ class MvcController extends CI_Controller
             $path = uri_string();
         }
         if (is_im_exists_view($path)) {
-            return $this->load->view($path, $data, TRUE);
+            return $this->view($path, $data, TRUE);
         }
 
         return "<!-- not found view file($path) -->";

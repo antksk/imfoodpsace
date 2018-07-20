@@ -14,13 +14,9 @@ class User extends MvcController
 
     public function index()
     {
-
-        return $this->load->view('idx_user', [
-            'script_tag' => $this->_cdn_js(),
-            'style_tag' => $this->_cdn_css(),
-            'inc_common' => $this->_inc_view('inc_common'),
+        return $this->_view('idx_user', $this->_base_res([
             'inc_navbar' => $this->_inc_view('inc_navbar', ['mode' => 'user']),
-        ]);
+        ]));
     }
 
     public function my_ests()

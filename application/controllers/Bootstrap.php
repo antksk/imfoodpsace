@@ -15,7 +15,7 @@ class Bootstrap extends MvcController
 
     private function _tag_company($type)
     {
-        return $this->_inc_view('tag_company', [
+        return $this->load->view('tag_company', [
             'company' => $this->company->get_list(['type' => $type])
         ], TRUE);
     }
@@ -23,16 +23,15 @@ class Bootstrap extends MvcController
     // 처음 화면에 표시되는 entry page
     public function index()
     {
-        $this->load->view('idx_main', [
-            'script_tag' => $this->_cdn_js(),
-            'style_tag' => $this->_cdn_css(),
-            'inc_common' => $this->_inc_view('inc/inc_common'),
-            'inc_help_comment' => $this->_inc_view('inc/inc_help_comment'),
-            'inc_navbar' => $this->_inc_view('inc/inc_navbar', ['mode' => 'main']),
+        $this->_view('idx_main',  $this->_base_res([
+
+            'inc_help_comment' => $this->_inc_view('inc_help_comment'),
+            'inc_navbar' => $this->_inc_view('inc_navbar', ['mode' => 'main']),
+
             'tag_factory' => $this->_tag_company('factory'),
             'tag_distribution' => $this->_tag_company('distribution'),
             'tag_restaurant' => $this->_tag_company('restaurant')
-        ]);
+        ]));
     }
 
     // 각 업체에 대한 상세 페이지
@@ -43,17 +42,14 @@ class Bootstrap extends MvcController
 
         $im_prefix = $this->config->item('im_prefix');
 
-        $this->load->view('dtl_company', [
-            'script_tag' => $this->_cdn_js(),
-            'style_tag' => $this->_cdn_css(),
-            'inc_common' => $this->_inc_view('inc_common'),
+        $this->load->view('dtl_company', $this->_base_res([
             'has_company' => $company_detail->exist,
             'company' => $company_detail->result,
             'company_prefix' => $im_prefix['company'],
             'ns' => base_url("/imfs/company/detail/$type"),
             'merchandise' => $company_detail->exist ? $this->merchandise->get_list($company_detail->result->id) : [],
             'merchandise_category' => $this->merchandise_category->get_root_list()
-        ]);
+        ]));
     }
 
 }
