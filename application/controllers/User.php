@@ -10,13 +10,40 @@ class User extends MvcController
         $this->load->model('common/user_model', 'user', TRUE);
         $this->load->model('common/company_model', 'company', TRUE);
         $this->load->model('common/estimate_model', 'estimate', TRUE);
+
+        $this->load->library('session');
+    }
+
+/*
+public function _remap($method, $params = array())
+{
+        $method = 'process_'.$method;
+        if (method_exists($this, $method))
+        {
+                return call_user_func_array(array($this, $method), $params);
+        }
+        show_404();
+}
+*/
+    /**
+     * @param $method
+     * @url https://codeigniter.com/user_guide/general/controllers.html?highlight=_remap
+     */
+    public function _remap($method)
+    {
+        log_message('debug', "test : $method");
+
+
+        $this->$method();
     }
 
     public function index()
     {
-        return $this->_view('idx_user', $this->_base_res([
-            'inc_navbar' => $this->_inc_view('inc_navbar', ['mode' => 'user']),
-        ]));
+        return $this->_view('login');
+    }
+
+    public function register(){
+        return $this->_view('register');
     }
 
     public function my_ests()

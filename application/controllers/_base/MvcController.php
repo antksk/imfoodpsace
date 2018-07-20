@@ -12,8 +12,9 @@ class MvcController extends CI_Controller
         $this->cdn = $this->config->item('im_fe_cdn');
     }
 
-    protected function _view($page, $data = null, $inc_flag = FALSE ){
-        return $this->load->view($page, $data, $inc_flag);
+    protected function _view($page, $data = null, $return_flag = FALSE ){
+        $class_name = strtolower(get_class($this));
+        return $this->load->view("$class_name/$page", $data, $return_flag);
     }
 
     protected function _inc_view($page, $data = null)

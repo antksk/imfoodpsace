@@ -16,4 +16,7 @@ class LogInCheckController extends CI_Controller
         $this->load->library('session');
     }
 
+
+
+
 }
