@@ -42,7 +42,7 @@ class Bootstrap extends MvcController
 
         $im_prefix = $this->config->item('im_prefix');
 
-        $this->load->view('dtl_company', $this->_base_res([
+        $this->_view('dtl_company', $this->_base_res([
             'has_company' => $company_detail->exist,
             'company' => $company_detail->result,
             'company_prefix' => $im_prefix['company'],

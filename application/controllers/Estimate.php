@@ -17,7 +17,7 @@ class Estimate extends MvcController
         // fb($this->merchandise->get_list_id_in($post_mcds->mcds), 'fb');
         $im_prefix = $this->config->item('im_prefix');
 
-        return $this->load->view('idx_estimate', [
+        return $this->_view('idx_estimate', [
             'script_tag' => $this->_cdn_js(),
             'style_tag' => $this->_cdn_css(),
             'inc_common' => $this->_inc_view('inc_common'),
