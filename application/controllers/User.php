@@ -42,6 +42,21 @@ public function _remap($method, $params = array())
         return $this->_view('login');
     }
 
+    public function login(){
+
+    }
+
+    public function logout() {
+        $this -> load -> helper('alert');
+
+        $this -> session -> sess_destroy();
+
+        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        alert('로그아웃 되었습니다.', '/bbs/board/lists/ci_board/page/1');
+        exit;
+
+    }
+
     public function register(){
         return $this->_view('register');
     }
