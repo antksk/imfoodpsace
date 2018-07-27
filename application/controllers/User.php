@@ -33,7 +33,7 @@ class User extends MvcController
 
     public function index()
     {
-        return $this->_view('login');
+        return $this->_view('login', $this->_base_res());
     }
 
     public function login_key()
@@ -58,7 +58,7 @@ class User extends MvcController
                 if (password_verify($pw, $req_user->pw)) {
 
                     json_result([
-                        'user' => $req_user
+                        'jwt' => $this->user->get_jwt_encode($req_user)
                     ]);
 
                     return;
@@ -146,10 +146,7 @@ class User extends MvcController
 
         // fb( $user_info, 'server-side-user-info');
         // fb( $company_info, 'servier-side-com-info');
-        return $this->load->view('idx_user_my_ests', [
-            'script_tag' => $this->_cdn_js(),
-            'style_tag' => $this->_cdn_css(),
-            'inc_common' => $this->_inc_view('inc_common'),
+        return $this->_view('my_ests', $this->_base_res([
             'inc_navbar' => $this->_inc_view('inc_navbar', ['mode' => 'user_my_ests', 'com_type' => $company_info->type]),
             'im' => ['com' => $company_info, 'usr' => $user_info],
             'ests' => [
@@ -157,7 +154,8 @@ class User extends MvcController
                 'sentCmp' => $this->user->get_my_sent_cmp_ests($user_info),
                 'inbox' => $this->user->get_my_inbox_ests($user_info)
             ]
-        ]);
+
+        ]));
     }
 
 

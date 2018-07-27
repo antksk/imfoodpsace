@@ -75,27 +75,27 @@ html {
 				$authForm.get(0).submit();
 			}
   		
-  		if(userLocalStorage.isSet('user')){
-				goingToMyEst();
-  			// location.href='/imfs/user/my_ests';
-  		}else{
-  			const $authKeyUI = $('#authKeyUI').removeClass('hide');
-  			$('.btn', $authKeyUI).on('click',(e)=>{
-  				const authKey = $('input[type="text"]',$authKeyUI).val();
-  
-  				$.post('/imfs/user/auth_key_and_jwt',{ak:authKey},json=>{
-  					if( '' != json.jwt ){
-  						userLocalStorage.set('user',json.jwt);
-  						Cookies.set('im_user_jwt',json.jwt); 
-  						// location.href='/imfs/user/my_ests';
-							goingToMyEst();
-  					}else{
-							alert('인증키가 적합하지 않습니다.');
-						}
-  				});
-  				
-  			});
-  		}
+            if(userLocalStorage.isSet('user')){
+                    goingToMyEst();
+                // location.href='/imfs/user/my_ests';
+            }else{
+                const $authKeyUI = $('#authKeyUI').removeClass('hide');
+                $('.btn', $authKeyUI).on('click',(e)=>{
+                    const authKey = $('input[type="text"]',$authKeyUI).val();
+
+                    $.post('/imfs/user/auth_key_and_jwt',{ak:authKey},json=>{
+                        if( '' != json.jwt ){
+                            userLocalStorage.set('user',json.jwt);
+                            Cookies.set('im_user_jwt',json.jwt);
+                            // location.href='/imfs/user/my_ests';
+                                goingToMyEst();
+                        }else{
+                                alert('인증키가 적합하지 않습니다.');
+                            }
+                    });
+
+                });
+            }
 		}($.initNamespaceStorage('@IM_USER').localStorage);
 	</script>
 

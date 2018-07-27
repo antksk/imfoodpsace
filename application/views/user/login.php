@@ -146,26 +146,45 @@
     <button class="btn btn-lg btn-info btn-block" type="submit">Join</button>
     <p class="mt-5 mb-3 text-muted text-center">&copy; 2014-2018</p>
 </form>
+<form id="authForm" method="POST" action="/imfs/user/my_ests">
+    <input type="hidden" name="jwt" value=""/>
+</form>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+<?=$script_tag?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
 <script>
     $(()=>{
-        $('#login').on('click',(e)=>{
-            const formSerializeInfo = $('#signin').serialize();
-            console.log( 'test : ', formSerializeInfo );
-            $.post( "user/login_key", formSerializeInfo, (data)=>{
-                console.log( data );
+        const userLocalStorage = $.initNamespaceStorage('@IM_USER').localStorage;
+
+        function goingToMyEst (){
+            const $authForm = $('#authForm');
+            $('input[name="jwt"]', $authForm).val(userLocalStorage.get('user'));
+            $authForm.get(0).submit();
+        }
+
+        // if(userLocalStorage.isSet('user')){
+        //     goingToMyEst();
+        // }else {
+
+            $('#login').on('click', (e) => {
+                $(e.target).prop('disabled',true);
+                const formSerializeInfo = $('#signin').serialize();
+
+                $.post("user/login_key", formSerializeInfo, (result) => {
+                    if( _.has(result, 'jwt') ){
+                        userLocalStorage.set('user',result.jwt);
+                        Cookies.set('im_user_jwt',result.jwt);
+                        goingToMyEst();
+                    }
+                    console.log(result);
+                });
+                return false;
             });
-            return false;
-        });
+        // }
     });
 </script>
 </body>
