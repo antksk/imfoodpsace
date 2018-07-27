@@ -108,7 +108,7 @@ class User_model extends CI_Model
         $user_simple_query = $this->simple_query->table('user');
 
         $row = $user_simple_query->get_row([
-            'fields' => "id, com_id, com_b36_cd, nm, tel_no, email, auth_key",
+            'fields' => "id, com_id, com_b36_cd, nm, tel_no, email, pw, auth_key",
             'where' => $where
         ]);
         if ($row->exist) {

@@ -11,20 +11,14 @@ class User extends MvcController
         $this->load->model('common/company_model', 'company', TRUE);
         $this->load->model('common/estimate_model', 'estimate', TRUE);
 
-        $this->load->library('session');
+        $this->load->library('encryption');
+        $this->load->library("form_validation");
+
+
+        // $this->load->library('session');
     }
 
-/*
-public function _remap($method, $params = array())
-{
-        $method = 'process_'.$method;
-        if (method_exists($this, $method))
-        {
-                return call_user_func_array(array($this, $method), $params);
-        }
-        show_404();
-}
-*/
+
     /**
      * @param $method
      * @url https://codeigniter.com/user_guide/general/controllers.html?highlight=_remap
@@ -42,23 +36,89 @@ public function _remap($method, $params = array())
         return $this->_view('login');
     }
 
-    public function login(){
+    public function login_key()
+    {
+
+// https://www.codeigniter.com/user_guide/libraries/form_validation.html?highlight=set_rules#setting-validation-rules
+// http://www.ciboard.co.kr/user_guide/kr/libraries/form_validation.html
+        $this->form_validation->set_rules('inputEmail', 'Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('inputPassword', 'Password', 'required|trim');
+
+        if ($this->form_validation->run()) {
+            $email = $this->input->post('inputEmail');
+            $pw = $this->input->post('inputPassword');
+
+            $req_user = $this->user->get_user([
+                'email' => $email
+            ]);
+
+
+            if ($req_user) {
+
+                if (password_verify($pw, $req_user->pw)) {
+
+                    json_result([
+                        'user' => $req_user
+                    ]);
+
+                    return;
+                }
+            }
+
+        }
+
+
+        json_result([
+            'error' => [
+                'email' => form_error('inputEmail'),
+                'password' => form_error('inputPassword')
+            ]
+        ]);
 
     }
 
-    public function logout() {
-        $this -> load -> helper('alert');
-
-        $this -> session -> sess_destroy();
-
-        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
-        alert('로그아웃 되었습니다.', '/bbs/board/lists/ci_board/page/1');
-        exit;
-
+    public function test()
+    {
+        json_result([
+            'test' => password_hash('test1234', PASSWORD_BCRYPT)
+        ]);
     }
 
-    public function register(){
+    public function register()
+    {
         return $this->_view('register');
+    }
+
+    public function add_user()
+    {
+        $this->form_validation->set_rules('fname', 'Full Name', 'trim|required|max_length[128]|xss_clean');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean|max_length[128]');
+        $this->form_validation->set_rules('password', 'Password', 'required|max_length[20]');
+        $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]|max_length[20]');
+        $this->form_validation->set_rules('role', 'Role', 'trim|required|numeric');
+        $this->form_validation->set_rules('mobile', 'Mobile Number', 'required|min_length[10]|xss_clean');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->addNew();
+        } else {
+            $name = ucwords(strtolower($this->input->post('fname')));
+            $email = $this->input->post('email');
+            $password = $this->input->post('password');
+            $roleId = $this->input->post('role');
+            $mobile = $this->input->post('mobile');
+
+            $userInfo = array('email' => $email, 'password' => getHashedPassword($password), 'roleId' => $roleId, 'name' => $name, 'mobile' => $mobile, 'createdBy' => $this->vendorId, 'createdDtm' => date('Y-m-d H:i:sa'));
+
+            $this->load->model('user_model');
+            $result = $this->user_model->addNewUser($userInfo);
+
+            if ($result > 0) {
+                $this->session->set_flashdata('success', 'New User created successfully');
+            } else {
+                $this->session->set_flashdata('error', 'User creation failed');
+            }
+
+        }
     }
 
     public function my_ests()

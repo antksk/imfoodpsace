@@ -120,19 +120,19 @@
 </head>
 
 <body>
-<form class="form-signin">
+<form class="form-signin" id="signin">
     <div class="text-center mb-4">
         <h1 class="h3 mb-3 font-weight-normal">imfoodspace</h1>
         <p>서비스 설명 영역 ~~~~ </p>
     </div>
 
     <div class="form-label-group">
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputEmail">Email address</label>
     </div>
 
     <div class="form-label-group">
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
         <label for="inputPassword">Password</label>
     </div>
     <!--
@@ -142,9 +142,31 @@
             </label>
         </div>
     -->
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <button id="login" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     <button class="btn btn-lg btn-info btn-block" type="submit">Join</button>
     <p class="mt-5 mb-3 text-muted text-center">&copy; 2014-2018</p>
 </form>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+<script>
+    $(()=>{
+        $('#login').on('click',(e)=>{
+            const formSerializeInfo = $('#signin').serialize();
+            console.log( 'test : ', formSerializeInfo );
+            $.post( "user/login_key", formSerializeInfo, (data)=>{
+                console.log( data );
+            });
+            return false;
+        });
+    });
+</script>
 </body>
 </html>
