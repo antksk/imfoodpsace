@@ -23,12 +23,16 @@ class User extends MvcController
      * @param $method
      * @url https://codeigniter.com/user_guide/general/controllers.html?highlight=_remap
      */
-    public function _remap($method)
+    public function _remap($method, $params=[])
     {
         log_message('debug', "test : $method");
 
+        if (method_exists($this, $method))
+        {
+            return call_user_func_array(array($this, $method), $params);
+        }
+        show_404();
 
-        $this->$method();
     }
 
     public function index()
@@ -183,8 +187,12 @@ class User extends MvcController
 
     public function rest_my_ests($mode)
     {
-        $jwt_user = $this->user->get_jwt_decode_with_post();
-        // fb($jwt_user, 'user');
+        // $jwt_user = $this->user->get_jwt_decode_with_post();
+        // fb($jwt_user, 'user aaads');
+        json_result([
+            'ur'=>$this->input->cookie('im_user_jwt', '')
+            ]);
+        /*
         switch ($mode) {
             case 'sent':
                 json_result([
@@ -198,6 +206,7 @@ class User extends MvcController
                 ]);
                 break;
         }
+        */
     }
 
     public function refresh_auth_key($id)
